@@ -309,10 +309,10 @@ async def check_account(update: Update, context: ContextTypes.DEFAULT_TYPE):
             response_text += f"🏆 <b>Subscription Tier:</b> {result.get('subscription_tier', 'FREE')}\n"
             response_text += f"💳 <b>Billing Period:</b> {result.get('billing_period', 'N/A')}\n"
             response_text += f"📅 <b>Next Payment:</b> {result.get('next_payment_date', 'N/A')}\n"
-
+            
             if result.get('remaining_days', -1) >= 0:
                 response_text += f"⏳ <b>Remaining Days:</b> {result.get('remaining_days', 'N/A')}\n"
-
+            
             response_text += f"⚜️ <b>Data:</b> {email}:{password}"
 
             await update.message.reply_text(response_text, parse_mode='HTML')
@@ -418,14 +418,14 @@ async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     response_text += f"🏆 <b>Subscription Tier:</b> {result.get('subscription_tier', 'FREE')}\n"
                     response_text += f"💳 <b>Billing Period:</b> {result.get('billing_period', 'N/A')}\n"
                     response_text += f"📅 <b>Next Payment:</b> {result.get('next_payment_date', 'N/A')}\n"
-
+                    
                     if result.get('remaining_days', -1) >= 0:
                         response_text += f"⏳ <b>Remaining Days:</b> {result.get('remaining_days', 'N/A')}\n"
-
+                    
                     response_text += f"⚜️ <b>Data:</b> {result['email']}:{result['password']}"
 
                     await update.message.reply_text(response_text, parse_mode='HTML')
-
+                    
                 elif result["status"] == "FREE":
                     free_accounts.append(result)
                     # Optionally show free accounts
@@ -548,16 +548,16 @@ async def set_threads(update: Update, context: ContextTypes.DEFAULT_TYPE):
             current_threads = get_user_thread_setting(user_id)
             await update.message.reply_text(
                 f"📊 <b>Current thread setting:</b> {current_threads}\n\n"
-                f"Usage: <code>/threads 15</code>\n"
-                f"Range: 1-50 threads", 
+                f"Usage: <code>/threads 25</code>\n"
+                f"Range: 1-100 threads", 
                 parse_mode='HTML'
             )
             return
 
         try:
             threads = int(context.args[0])
-            if threads < 1 or threads > 50:
-                await update.message.reply_text("❌ Thread count must be between 1 and 50")
+            if threads < 1 or threads > 100:
+                await update.message.reply_text("❌ Thread count must be between 1 and 100")
                 return
 
             set_user_thread_setting(user_id, threads)
@@ -632,26 +632,27 @@ async def proxy_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 @prevent_duplicate
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    welcome_msg = "🎤 <b>ElevenLabs Account Checker - by @medusaXD</b>\n\n"
+    welcome_msg = "🎤 <b>ElevenLabs Account Checker - THREADED EDITION</b>\n\n"
     welcome_msg += "📋 <b>Commands:</b>\n"
     welcome_msg += "• /check email:password - Check single account\n"
     welcome_msg += "• /combo - Upload .txt file for bulk checking\n"
     welcome_msg += "• /proxy ip:port:user:pass - Add proxy\n"
-    welcome_msg += "• /threads 15 - Set thread count (1-100)\n"
+    welcome_msg += "• /threads 25 - Set thread count (1-100)\n"
     welcome_msg += "• /status - Check proxy & thread status\n"
     welcome_msg += "• /clearproxy - Clear all proxies\n\n"
     welcome_msg += "⚡ <b>Threading:</b> Default 10 threads per user\n"
     welcome_msg += "🌐 <b>Proxy Support:</b> Upload .txt file with caption 'proxy'\n"
     welcome_msg += "🚀 <b>Performance:</b> Proxies × Threads = Max Speed!\n\n"
     welcome_msg += "✅ <b>Anti-Duplicate:</b> No double responses!\n"
-    welcome_msg += "🎯 <b>Detects:</b> Active, Free, and Invalid accounts"
+    welcome_msg += "🎯 <b>Detects:</b> Active, Free, and Invalid accounts\n"
+    welcome_msg += "💪 <b>Max Threads:</b> Up to 100 concurrent threads!"
 
     await update.message.reply_text(welcome_msg, parse_mode='HTML')
 
 def main():
     print("🚀 Starting ElevenLabs Account Checker Bot...")
     print(f"🔑 Using token: {TELEGRAM_TOKEN[:10]}...")
-    print("✅ Features: Threading + Proxies + Anti-Duplicate")
+    print("✅ Features: Threading (1-100) + Proxies + Anti-Duplicate")
 
     # Create application
     application = Application.builder().token(TELEGRAM_TOKEN).build()
@@ -667,7 +668,7 @@ def main():
     application.add_handler(MessageHandler(filters.Document.ALL, handle_document))
 
     # Run the application
-    print("✅ ElevenLabs Bot is running with all features...")
+    print("✅ ElevenLabs Bot is running with max 100 threads...")
     application.run_polling(drop_pending_updates=True)
 
 if __name__ == '__main__':
