@@ -1,0 +1,13 @@
+services:
+  - type: worker
+    name: elevenlabsChk-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    repo: https://github.com/greatautomate/elabs
+    branch: main
+    envVars:
+      - key: TELEGRAM_TOKEN
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11"
