@@ -110,7 +110,7 @@ def get_user_thread_setting(user_id):
 
 def set_user_thread_setting(user_id, threads):
     """Set thread setting for user"""
-    user_thread_settings[user_id] = max(1, min(threads, 50))  # Limit between 1-50
+    user_thread_settings[user_id] = max(1, min(threads, 100))  # Limit between 1-100
 
 def increment_user_active_counter(user_id):
     """Increment active counter for user - thread safe"""
@@ -632,12 +632,12 @@ async def proxy_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 @prevent_duplicate
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    welcome_msg = "🎤 <b>ElevenLabs Account Checker - THREADED EDITION</b>\n\n"
+    welcome_msg = "🎤 <b>ElevenLabs Account Checker - by @medusaXD</b>\n\n"
     welcome_msg += "📋 <b>Commands:</b>\n"
     welcome_msg += "• /check email:password - Check single account\n"
     welcome_msg += "• /combo - Upload .txt file for bulk checking\n"
     welcome_msg += "• /proxy ip:port:user:pass - Add proxy\n"
-    welcome_msg += "• /threads 15 - Set thread count (1-50)\n"
+    welcome_msg += "• /threads 15 - Set thread count (1-100)\n"
     welcome_msg += "• /status - Check proxy & thread status\n"
     welcome_msg += "• /clearproxy - Clear all proxies\n\n"
     welcome_msg += "⚡ <b>Threading:</b> Default 10 threads per user\n"
